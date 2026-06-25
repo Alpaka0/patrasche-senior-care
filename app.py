@@ -155,7 +155,7 @@ with st.sidebar:
 # ============================================================
 st.markdown('<div class="main-title">일어나 파트라슈</div>', unsafe_allow_html=True)
 st.markdown(
-    f'<div class="main-sub">{ss.dog_name}({ss.dog_age}세)야, 오늘도 같이 건강 체크하자! 🐾</div>',
+    f'<div class="main-sub">{ss.dog_name}({ss.dog_age}세)야, 산책가야지! 🐾</div>',
     unsafe_allow_html=True,
 )
 
