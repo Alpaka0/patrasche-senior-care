@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import base64
 from datetime import date
+from pathlib import Path
 
 # ============================================================
 # 페이지 설정 + 색감 테마 (살구·코랄 톤)
@@ -110,9 +111,12 @@ init_state()
 ss = st.session_state
 
 # 사진 경로 — 나이/건강체크 상태에 따라 전환 (3종)
-PHOTO_GOOD = r"C:\Users\asia\Downloads\댕댕댕\files\photo\main2.png"      # 양호 / 성인기
-PHOTO_WATCH = r"C:\Users\asia\Downloads\댕댕댕\files\photo\main.png"      # 관찰필요 / 시니어 진입
-PHOTO_WORRIED = r"C:\Users\asia\Downloads\댕댕댕\files\photo\main3.png"   # 병원상담 권장 / 노령기
+BASE_DIR = Path(__file__).parent
+PHOTO_DIR = BASE_DIR / "files" / "photo"
+
+PHOTO_GOOD = PHOTO_DIR / "main2.png"
+PHOTO_WATCH = PHOTO_DIR / "main.png"
+PHOTO_WORRIED = PHOTO_DIR / "main3.png"
 
 
 # ============================================================
@@ -140,10 +144,10 @@ with st.sidebar:
 
     # 광고 영역
     st.markdown("<div style='margin-top:24px;'></div>", unsafe_allow_html=True)
-    AD_DIR = r"C:\Users\asia\Downloads\댕댕댕\files\photo"
-    st.image(f"{AD_DIR}\\ad1.png", use_container_width=True)
-    st.image(f"{AD_DIR}\\ad2.png", use_container_width=True)
-    st.image(f"{AD_DIR}\\ad3.png", use_container_width=True)
+    AD_DIR = PHOTO_DIR
+    st.image(str(AD_DIR / "ad1.png"), use_container_width=True)
+    st.image(str(AD_DIR / "ad2.png"), use_container_width=True)
+    st.image(str(AD_DIR / "ad3.png"), use_container_width=True)
 
 
 # ============================================================
@@ -356,8 +360,8 @@ with content_col:
 # ============================================================
 # 하단 배너 광고 (ad4 ↔ ad5, 5초마다 자동 전환)
 # ============================================================
-AD4_PATH = r"C:\Users\asia\Downloads\댕댕댕\files\photo\ad4.png"
-AD5_PATH = r"C:\Users\asia\Downloads\댕댕댕\files\photo\ad5.png"
+AD4_PATH = PHOTO_DIR / "ad4.png"
+AD5_PATH = PHOTO_DIR / "ad5.png"
 COUPANG_URL = "https://www.coupang.com/np/search?component=&q=%EC%95%A0%EA%B2%AC%EC%9A%A9%ED%92%88&traceId=mqsxbagw&channel=user"
 
 try:
