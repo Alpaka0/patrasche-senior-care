@@ -17,6 +17,7 @@ import altair as alt
 import base64
 from datetime import date
 from pathlib import Path
+from urllib.parse import quote
 
 # ============================================================
 # 페이지 설정 + 색감 테마 (살구·코랄 톤)
@@ -112,6 +113,26 @@ PHOTO_GOOD = PHOTO_DIR / "main2.png"
 PHOTO_WATCH = PHOTO_DIR / "main.png"
 PHOTO_WORRIED = PHOTO_DIR / "main3.png"
 
+AD1_URL = f"https://www.coupang.com/np/search?component=&q={quote('강아지 영양제')}&channel=user"
+AD2_URL = f"https://www.coupang.com/np/search?component=&q={quote('강아지 건강관리')}&channel=user"
+AD3_URL = f"https://map.naver.com/p/search/{quote('동물병원')}"
+COUPANG_URL = f"https://www.coupang.com/np/search?component=&q={quote('애견용품')}&channel=user"
+
+def clickable_ad(image_path, url):
+    try:
+        img_b64 = base64.b64encode(image_path.read_bytes()).decode()
+
+        st.markdown(
+            f"""
+            <a href="{url}" target="_blank">
+                <img src="data:image/png;base64,{img_b64}"
+                     style="width:100%; border-radius:10px; margin-bottom:12px;">
+            </a>
+            """,
+            unsafe_allow_html=True
+        )
+    except FileNotFoundError:
+        st.caption(f"광고 이미지를 찾을 수 없어요: {image_path.name}")
 
 # ============================================================
 # 사이드바 — 파트라슈 프로필 (전체 화면 공통)
@@ -139,9 +160,9 @@ with st.sidebar:
     # 광고 영역
     st.markdown("<div style='margin-top:24px;'></div>", unsafe_allow_html=True)
     AD_DIR = PHOTO_DIR
-    st.image(str(AD_DIR / "ad1.png"), use_container_width=True)
-    st.image(str(AD_DIR / "ad2.png"), use_container_width=True)
-    st.image(str(AD_DIR / "ad3.png"), use_container_width=True)
+    clickable_ad(AD_DIR / "ad1.png", AD1_URL)
+    clickable_ad(AD_DIR / "ad2.png", AD2_URL)
+    clickable_ad(AD_DIR / "ad3.png", AD3_URL)
 
 
 # ============================================================
@@ -373,7 +394,6 @@ with content_col:
 # ============================================================
 AD4_PATH = PHOTO_DIR / "ad4.png"
 AD5_PATH = PHOTO_DIR / "ad5.png"
-COUPANG_URL = "https://www.coupang.com/np/search?component=&q=%EC%95%A0%EA%B2%AC%EC%9A%A9%ED%92%88&traceId=mqsxbagw&channel=user"
 
 try:
     with open(AD4_PATH, "rb") as f:
