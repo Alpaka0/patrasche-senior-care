@@ -13,8 +13,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
 import base64
 from datetime import date
 from pathlib import Path
@@ -82,11 +80,6 @@ CUSTOM_CSS = """
 </style>
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
-
-# matplotlib 한글 폰트 설정 (Windows 환경 기준)
-plt.rcParams["font.family"] = "Malgun Gothic"
-plt.rcParams["axes.unicode_minus"] = False
-
 
 # ============================================================
 # session_state 초기화 (앱의 '기억' 저장소)
@@ -208,27 +201,12 @@ with content_col:
 
         if ss.weight_log:
             df = pd.DataFrame(ss.weight_log)
-            x_labels = [f"{i+1}회차" for i in range(len(df))]
 
-            # Y축 스케일 보정: 소형견은 0.1~0.2kg 단위 변화라 범위를 좁혀서 변화가 보이게
-            min_w, max_w = df["체중"].min(), df["체중"].max()
-            spread = max_w - min_w
-            padding = 0.5 if spread < 1.0 else spread * 0.15
-            y_min = max(0, min_w - padding)
-            y_max = max_w + padding if max_w + padding > y_min else y_min + 1
+            # 입력 순서를 회차로 표시
+            df.index = [f"{i+1}회차" for i in range(len(df))]
 
-            fig, ax = plt.subplots(figsize=(6, 3))
-            fig.patch.set_alpha(0)
-            ax.set_facecolor("none")
-            ax.plot(x_labels, df["체중"], marker="o", color="#FF8C69", linewidth=2)
-            ax.set_ylim(y_min, y_max)
-            ax.set_ylabel("체중 (kg)")
-            ax.tick_params(axis="x", rotation=0)
-            ax.spines["top"].set_visible(False)
-            ax.spines["right"].set_visible(False)
-            ax.grid(axis="y", alpha=0.3)
-            st.pyplot(fig)
-            plt.close(fig)
+            # Streamlit 기본 차트 사용: Cloud 환경에서 matplotlib 한글 깨짐 방지
+            st.line_chart(df["체중"], height=320)
 
             st.caption(f"지금까지 {len(ss.weight_log)}번 기록했어요. (가로축: 입력 순서)")
         else:
