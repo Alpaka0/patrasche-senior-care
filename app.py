@@ -13,6 +13,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
+import altair as alt
 import base64
 from datetime import date
 from pathlib import Path
@@ -201,12 +202,44 @@ with content_col:
 
         if ss.weight_log:
             df = pd.DataFrame(ss.weight_log)
+            df["회차"] = [f"{i+1}회차" for i in range(len(df))]
 
-            # 입력 순서를 회차로 표시
-            df.index = [f"{i+1}회차" for i in range(len(df))]
+            # 강아지 체중 변화가 잘 보이도록 Y축 범위 좁히기
+            min_w = df["체중"].min()
+            max_w = df["체중"].max()
+            spread = max_w - min_w
 
-            # Streamlit 기본 차트 사용: Cloud 환경에서 matplotlib 한글 깨짐 방지
-            st.line_chart(df["체중"], height=320)
+            if spread == 0:
+                y_min = max(0, min_w - 0.3)
+                y_max = max_w + 0.3
+            elif spread < 1.0:
+                y_min = max(0, min_w - 0.3)
+                y_max = max_w + 0.3
+            else:
+                padding = spread * 0.15
+                y_min = max(0, min_w - padding)
+                y_max = max_w + padding
+
+            chart = (
+                alt.Chart(df)
+                .mark_line(point=True)
+                .encode(
+                    x=alt.X(
+                        "회차:N",
+                        title="입력 순서",
+                        axis=alt.Axis(labelAngle=0)
+                    ),
+                    y=alt.Y(
+                        "체중:Q",
+                        title="체중 (kg)",
+                        scale=alt.Scale(domain=[y_min, y_max])
+                    ),
+                    tooltip=["회차", "체중"]
+                )
+                .properties(height=320)
+            )
+
+            st.altair_chart(chart, use_container_width=True)
 
             st.caption(f"지금까지 {len(ss.weight_log)}번 기록했어요. (가로축: 입력 순서)")
         else:
