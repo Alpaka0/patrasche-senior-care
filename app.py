@@ -763,7 +763,7 @@ with content_col:
             """
             <div class="ai-hero">
                 <div class="ai-kicker">VOICE · AI · SENIOR CARE</div>
-                <div class="ai-title">🐶 AI 파트라슈와 대화에게 말해보세요</div>
+                <div class="ai-title">🐶 AI 파트라슈에게 말해보세요</div>
                 <div class="ai-desc">
                     보호자가 질문하면 음성을 글로 바꾸고,
                     현재 앱에 기록된 프로필·체중·건강체크·복약·케어기록을 참고해
