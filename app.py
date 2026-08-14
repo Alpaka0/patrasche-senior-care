@@ -439,9 +439,9 @@ with st.sidebar:
         if ad_path.exists():
             st.image(str(ad_path), use_container_width=True)
 
-    # AI 파트라슈 설정은 광고/추천 이미지 3개 아래, 사이드바 최하단에 배치
+    # AI 파트라슈와 대화 설정은 광고/추천 이미지 3개 아래, 사이드바 최하단에 배치
     st.divider()
-    st.markdown("### 🤖 AI 파트라슈 설정")
+    st.markdown("### 🤖 AI 파트라슈와 대화 설정")
     selected_model_label = st.radio(
         "Gemini 모델",
         list(MODEL_OPTIONS.keys()),
@@ -449,9 +449,9 @@ with st.sidebar:
     )
     selected_model = MODEL_OPTIONS[selected_model_label]
 
-    if st.button("AI 파트라슈 대화 초기화", use_container_width=True):
+    if st.button("AI 파트라슈와 대화 대화 초기화", use_container_width=True):
         reset_ai_conversation()
-        st.toast("AI 파트라슈와의 대화를 초기화했어요.")
+        st.toast("AI 파트라슈와 대화를 초기화했어요.")
 
 
 # ============================================================
@@ -500,7 +500,7 @@ with content_col:
             "🩺 건강체크",
             "💊 복약알리미",
             "📔 케어기록",
-            "🤖 AI 파트라슈",
+            "🤖 AI 파트라슈와 대화",
         ]
     )
 
@@ -763,7 +763,7 @@ with content_col:
             """
             <div class="ai-hero">
                 <div class="ai-kicker">VOICE · AI · SENIOR CARE</div>
-                <div class="ai-title">🐶 AI 파트라슈에게 말해보세요</div>
+                <div class="ai-title">🐶 AI 파트라슈와 대화에게 말해보세요</div>
                 <div class="ai-desc">
                     보호자가 질문하면 음성을 글로 바꾸고,
                     현재 앱에 기록된 프로필·체중·건강체크·복약·케어기록을 참고해
@@ -865,7 +865,7 @@ with content_col:
         if ss.ai_error:
             st.error(f"AI 처리 중 오류가 발생했습니다: {ss.ai_error}")
 
-        st.markdown("#### 💬 AI 파트라슈와의 대화")
+        st.markdown("#### 💬 AI 파트라슈와 대화와의 대화")
 
         if not ss.ai_chat:
             st.info(
@@ -888,7 +888,7 @@ with content_col:
         st.markdown(
             """
             <div class="medical-note">
-                ※ AI 파트라슈는 일반적인 반려견 돌봄 정보를 제공하는 데모 기능입니다.
+                ※ AI 파트라슈와 대화는 일반적인 반려견 돌봄 정보를 제공하는 데모 기능입니다.
                 진단·처방을 대신하지 않으며, 상태가 급격히 나빠지거나 걱정되는 증상이 지속되면
                 동물병원에 문의하세요.
             </div>
